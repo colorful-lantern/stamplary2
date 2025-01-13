@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <script src="checkStamp.js"></script>
+    <script src="showTooltops.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <title>まちぶらスタンプラリー</title>
+</head>
+<body>
+    <div class="container-fluid m-auto">
+        <div id="title" class="container-fluid p-1 text-center">
+            <h1 class="m-1">まちぶらスタンプラリー</h1>
+        </div>
+
+        <div class="score-display">
+            <div class="alert alert-primary m-1 p-1" role="alert">
+                <div class="row">
+                    <div class="col-8">
+                        <h5 class="text-center m-auto text-nowrap">集めたスタンプ数</h5>
+                    </div>
+                    <div class="col-4">
+                        <h4 id="stampCount" class="text-center m-auto">0</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="result" class="container-fluid mx-auto">
+            <div class="row">
+                <div id="question1" class="col-6 p-3">
+                    <div class="card border-0">
+                        <img class="card-img-top" src="img/stamp_notcom.png" alt="Card image cap">
+                        <div id="00001" class="card-body m-0 p-0">
+                            <h6 class="card-title py-2 text-center">〇〇時計店</h6>
+                            <!--<a href="sample_ans.html" class="btn btn-primary">回答する</a>-->
+                        </div>
+                    </div>
+                </div>
+                <div id="question2" class="col-6 p-3">
+                    <div class="card border-0">
+                        <img class="card-img-top" src="img/stamp_notcom.png" alt="Card image cap">
+                        <div class="card-body m-0 p-0">
+                            <h6 class="card-title py-2 text-center">居酒屋▲▲</h6>
+                            <!--<a href="sample_ans.html" class="btn btn-primary">回答する</a>-->
+                        </div>
+                    </div> 
+                </div>
+                <div id="question3" class="col-6 p-3">
+                    <div class="card border-0">
+                        <img class="card-img-top" src="img/stamp_notcom.png" alt="Card image cap">
+                        <div class="card-body m-0 p-0">
+                            <h6 class="card-title py-2 text-center">□□うどん</h6>
+                            <!--<a href="sample_ans.html" class="btn btn-primary">回答する</a>-->
+                        </div>
+                    </div> 
+                </div>
+                <div id="question4" class="col-6 p-3">
+                    <div class="card border-0">
+                        <img class="card-img-top" src="img/stamp_notcom.png" alt="Card image cap">
+                        <div class="card-body m-0 p-0">
+                            <h6 class="card-title py-2 text-center">居酒屋◇◇</h6>
+                            <!--<a href="sample_ans.html" class="btn btn-primary">回答する</a>-->
+                        </div>
+                    </div> 
+                </div>
+                <div id="question5" class="col-6 p-3">
+                    <div class="card border-0"></div>
+                        <img class="card-img-top" src="img/stamp_notcom.png" alt="Card image cap">
+                        <div class="card-body m-0 p-0">
+                            <h6 class="card-title py-2 text-center">◎◎百貨店</h6>
+                            <!--<a href="sample_ans.html" class="btn btn-primary">回答する</a>-->
+                        </div>
+                    </div> 
+                </div>
+            </div>
+            <!--Cookie使用の案内をするトースト　画面左下に表示する。ただし、フッターにかからないように振ったうえに表示する-->
+            <div class="toast align-items-center text-dark bg-light border-0 position-fixed top-0 start-0 m-3 p-1" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="d-flex">
+                    <div class="toast-body" style="width: 90%;">
+                        このサイトではCookieを使用しています。このページにとどまり続けた場合、または✕ボタンを押すとCookieを使用することに同意したことになります。
+                        <div class="m-auto p-2 position-relative start-0 end-0">
+                            <button class="btn btn-outline-primary" onclick="location.href='cookiepolicy.html'">詳細はこちら</button>
+                        </div>
+                    </div>
+                    <button type="button" class="btn-close btn-close-dark me-2 m-auto" data-bs-dismiss="toast" aria-label="Close" style="width: 10%;"></button>
+                </div>
+            </div>
+        </div>
+        <br><br><br><br><br><br><br><br><br><br><br>
+        <!--フッター-->
+        <div id="footer" class="container-fluid">
+            <div class="fixed-bottom bg-white bg-opacity-75 m-auto">
+                <div class="row p-2 m-auto">
+                    <div class="col-3">
+                        <div class="text-center m-auto">
+                            <a href="sample_main2.html" class="btn btn-link text-primary text-decoration-none text-nowrap">
+                            <i class="bi bi-collection fs-2 fw-bold"></i><br>
+                            スタンプ</a>
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div class="text-center m-auto">
+                            <a href="sample_map.html" class="btn btn-link text-dark text-decoration-none text-nowrap">
+                            <i class="bi bi-geo-alt fs-2 fw-bold"></i><br>
+                            マップ</a>
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div class="text-center m-auto">
+                            <a href="rule.html" class="btn btn-link text-dark text-decoration-none text-nowrap" data-bs-toggle="tooltip" data-bs-placement="top" title="まずはここを確認">
+                            <i class="bi bi-book-half fs-2 fw-bold"></i><br>
+                            参加方法</a>
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div class="text-center m-auto">
+                            <a href="sample_present.html" class="btn btn-link text-dark text-decoration-none text-nowrap">
+                            <i class="bi bi-gift fs-2 fw-bold"></i><br>
+                            応募</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            var tooltip = new bootstrap.Tooltip(tooltipTriggerEl);
+            tooltip.show();
+            return tooltip;
+        });
+
+
+        if (!localStorage.getItem('toastDisplayed')) {
+            var toastElList = [].slice.call(document.querySelectorAll('.toast'))
+            var toastList = toastElList.map(function (toastEl) {
+                return new bootstrap.Toast(toastEl, { autohide: false })
+            })
+            toastList.forEach(toast => toast.show())
+            // もしもトースト内の✕ボタンを押したら、ローカルストレージにtrueを保存する
+            toastElList.forEach(function (toastEl) {
+                toastEl.addEventListener('hidden.bs.toast', function () {
+                    localStorage.setItem('toastDisplayed', 'true')
+                })
+            })
+        }
+        // クエリ文字列を取得し、ローカルストレージに保存する
+        getQueryParams();
+        // ローカルストレージの内容をコンソールに表示する
+        displayLocalStorageData();
+        // ローカルストレージに保存されているスタンプの情報を取得し、もしもスタンプが押されていたら、スタンプを押したことを示す画像に変更する
+        checkStamp();
+    });
+
+    //クエリ文字列を取得し、ローカルストレージに保存するコード。Item名はquestionID、値はtrueかfalse。デフォルトではflaseなので、trueにするためにはクエリ文字列を取得する必要がある。
+    function getQueryParams() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const params = {};
+        for (const [key, value] of urlParams.entries()) {
+            params[key] = value;
+            localStorage.setItem(key, value);
+            // もし、クエリ文字列のkeyがclear、valueがtrueの場合、ローカルストレージをクリアする
+            if (key === 'clear' && value === 'true') {
+                localStorage.clear();
+            }
+        }
+    }
+    
+    function displayLocalStorageData() {
+        //現在日時
+        console.log(new Date().toLocaleString());
+        console.log('ローカルストレージの内容:');
+        console.log('------------------------');
+
+        if (localStorage.length === 0) {
+            console.log('ローカルストレージは空です。');
+            return;
+        }
+
+        for (let i = 0; i < localStorage.length; i++) {
+            // キーを取得、ただし取得文字に特殊文字が含まれる場合はエスケープする
+            const key = encodeURIComponent(localStorage.key(i));
+            let value = encodeURIComponent(localStorage.getItem(key));
+
+            // JSON形式のデータの場合、パースを試みる
+            try {
+            value = JSON.parse(value);
+            } catch (e) {
+            // パースに失敗した場合は、元の文字列のまま
+            }
+
+            console.log(`キー: ${key}`);
+            console.log(`値:`, value);
+            console.log('------------------------');
+        }
+        }
+
+
+    // ローカルストレージに保存されているスタンプの情報を取得し、もしもスタンプが押されていたら、スタンプを押したことを示す画像に変更する
+    function checkStamp() {
+        let stampCount = 0;
+        for (let i = 0; i < localStorage.length; i++) {
+            const key = encodeURIComponent(localStorage.key(i));
+            let value = encodeURIComponent(localStorage.getItem(key));
+            if (value === 'true' && key !== 'toastDisplayed') {
+                // idがkeyの要素に含まれるimgの中の画像をスタンプを押したことを示す画像に変更する
+                const element = document.getElementById(key);
+                if (element) {
+                    element.getElementsByTagName('img')[0].src = 'img/stamp_com1.png';
+                }
+                // スタンプの数を1増やす
+                stampCount++;
+            }
+        }
+        // スタンプの数を更新する
+        document.getElementById('stampCount').textContent = stampCount;
+    }
+
+    function encryptText(text, password) {
+        var originalText = text;
+        var password = password;
+
+        // AES暗号化アルゴリズムを使用してテキストを暗号化
+        var encrypted = CryptoJS.AES.encrypt(originalText, password);
+
+       return encrypted.toString();
+    }
+
+
+</script>
+</body>
+</html>
